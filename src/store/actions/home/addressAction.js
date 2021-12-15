@@ -1,13 +1,14 @@
 import { getAddress } from "../../../models";
 
 export function addressAction(lat, lng) {
-  getAddress(lat, lng).then((response) => {
-      
-  })
-
-  return {
-    type: "ADDRESS",
-    payload: data.address,
-    isLoading: true,
+  return (dispatch) => {
+    dispatch({ type: "USER_ADDRESS", isLoading: true });
+    getAddress(lat, lng).then((response) => {
+      return dispatch({
+        type: "USER_ADDRESS",
+        payload: response,
+        isLoading: false,
+      });
+    });
   };
 }

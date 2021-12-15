@@ -1,12 +1,6 @@
-import { combineReducers, createStore } from "redux";
+import { combineReducers } from "redux";
 import { createdReducers } from "./reducers";
 
-const reducers = combineReducers({
+export const reducers = combineReducers({
   ...createdReducers,
 });
-
-function storeConfig() {
-  return createStore(reducers);
-}
-
-export default storeConfig;

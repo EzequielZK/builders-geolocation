@@ -1,11 +1,11 @@
-import { openWeatherApi, openWeatherApiKey } from "../openWeatherApiConfig";
+import {
+  openWeatherGeolocationApi,
+  openWeatherGeolocationApiKey,
+} from "../openWeatherGeolocationApiConfig";
 
 export default async function getAddress(lat, lng) {
-  const response = await openWeatherApi.get(
-    `/reverse?lat=${lat}&lon=${lng}&appid=${openWeatherApiKey}`
+  const response = await openWeatherGeolocationApi.get(
+    `/reverse?lat=${lat}&lon=${lng}&appid=${openWeatherGeolocationApiKey}`
   );
-  console.log({ response });
-  return {
-    address: response.formatted_address,
-  };
+  return response.data[0];
 }

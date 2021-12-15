@@ -1,5 +1,3 @@
 .container {
-    padding: var(--spacing-md);
-  display: flex;
-  align-items: flex-start;
+  padding: var(--spacing-md);
 }

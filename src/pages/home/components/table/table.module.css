@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.table {
+  text-align: center;
+  flex: 1;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rowsContainer {
+  font-size: 24px;
+  display: flex;
+}
+
+.rowsContainer > td,
+th {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}

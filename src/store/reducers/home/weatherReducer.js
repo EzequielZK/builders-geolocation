@@ -1,15 +1,13 @@
 const INITIAL_STATE = {
   isLoading: true,
-  city: null,
-  state: null,
+  payload: null,
 };
 
-export default function addressReducer(state = INITIAL_STATE, action) {
+export default function weatherReducer(state = INITIAL_STATE, action) {
   const types = {
-    USER_ADDRESS: {
+    USER_WEATHER: {
       ...state,
-      city: action.payload?.name,
-      state: action.payload?.state,
+      payload: action.payload,
       isLoading: action.isLoading,
     },
   };
