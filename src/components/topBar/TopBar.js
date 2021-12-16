@@ -11,10 +11,10 @@ function TopBar(props) {
     <div className={cssStyles.container}>
       <img alt="logo" src={Logo} />
       <Button
-        // is_loading={props.weather.isLoading || props.address.isLoading}
+        is_loading={props.weather.isLoading || props.address.isLoading}
         onClick={() => {
-          // props.addressAction(props.address.lat, props.address.lng);
-          // props.weatherAction(props.address.lat, props.address.lng);
+          props.addressAction(props.address.lat, props.address.lng);
+          props.weatherAction(props.address.lat, props.address.lng);
         }}
       >
         Update data

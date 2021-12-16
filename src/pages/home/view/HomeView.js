@@ -7,16 +7,15 @@ import cssStyles from "./homeView.module.css";
 
 function HomeView(props) {
   React.useEffect(() => {
+    const getPosition = (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      props.addressAction(lat, lng);
+      props.weatherAction(lat, lng);
+    };
     navigator.geolocation.getCurrentPosition(getPosition);
-  });
-
-  const getPosition = (position) => {
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-
-    // props.addressAction(lat, lng);
-    // props.weatherAction(lat, lng);
-  };
+  }, []);
 
   return (
     <div className={cssStyles.container}>
@@ -31,7 +30,6 @@ function HomeView(props) {
       <Cards is_loading={props.address.isLoading || props.weather.isLoading}>
         <Table
           title="Next few days"
-          // titleIcon={props.weather.payload.icon}
           headers={[
             "DATE",
             "DAY TEMP",
@@ -43,69 +41,7 @@ function HomeView(props) {
             "HUMIDITY",
             "WEATHER",
           ]}
-          // body={props.weather.payload?.dailyWeather}
-          body={[
-            {
-              date: `${
-                new Date()
-                  .toLocaleString("pt-br", { timeZone: "UTC" })
-                  .split(" ")[0]
-              }`,
-              dayTemp: `${Number("20").toFixed(0)} ºC`,
-              nightTemp: `${Number("20").toFixed(0)} ºC`,
-              minTemp: `${Number("20").toFixed(0)} ºC`,
-              maxTemp: `${Number("20").toFixed(0)} ºC`,
-              feelsLikeDay: `${Number("20").toFixed(0)} ºC`,
-              feelsLikeNight: `${Number("20").toFixed(0)} ºC`,
-              humidity: `${Number("20")}%`,
-              icon: (
-                <img
-                  src={`http://openweathermap.org/img/wn/${"10d"}@2x.png`}
-                  alt="weather-icon"
-                />
-              ),
-            },
-            {
-              date: `${
-                new Date()
-                  .toLocaleString("pt-br", { timeZone: "UTC" })
-                  .split(" ")[0]
-              }`,
-              dayTemp: `${Number("20").toFixed(0)} ºC`,
-              nightTemp: `${Number("20").toFixed(0)} ºC`,
-              minTemp: `${Number("20").toFixed(0)} ºC`,
-              maxTemp: `${Number("20").toFixed(0)} ºC`,
-              feelsLikeDay: `${Number("20").toFixed(0)} ºC`,
-              feelsLikeNight: `${Number("20").toFixed(0)} ºC`,
-              humidity: `${Number("20")}%`,
-              icon: (
-                <img
-                  src={`http://openweathermap.org/img/wn/${"10d"}@2x.png`}
-                  alt="weather-icon"
-                />
-              ),
-            },
-            {
-              date: `${
-                new Date()
-                  .toLocaleString("pt-br", { timeZone: "UTC" })
-                  .split(" ")[0]
-              }`,
-              dayTemp: `${Number("20").toFixed(0)} ºC`,
-              nightTemp: `${Number("20").toFixed(0)} ºC`,
-              minTemp: `${Number("20").toFixed(0)} ºC`,
-              maxTemp: `${Number("20").toFixed(0)} ºC`,
-              feelsLikeDay: `${Number("20").toFixed(0)} ºC`,
-              feelsLikeNight: `${Number("20").toFixed(0)} ºC`,
-              humidity: `${Number("20")}%`,
-              icon: (
-                <img
-                  src={`http://openweathermap.org/img/wn/${"10d"}@2x.png`}
-                  alt="weather-icon"
-                />
-              ),
-            },
-          ]}
+          body={props.weather.payload?.dailyWeather}
         />
       </Cards>
     </div>

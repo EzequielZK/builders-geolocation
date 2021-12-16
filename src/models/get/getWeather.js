@@ -23,7 +23,7 @@ export default async function getWeather(lat, lng) {
       />
     ),
   };
-
+console.log({response})
   const dailyWeather = response.data.daily.map((item, index) => {
     return {
       date: `${
