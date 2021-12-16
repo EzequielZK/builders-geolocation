@@ -1,11 +1,38 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Logo } from "../images/Images";
+import { addressAction, weatherAction } from "../../store/actions";
 import cssStyles from "./topBar.module.css";
+import { Button } from "..";
 
-export default function TopBar() {
+function TopBar(props) {
   return (
     <div className={cssStyles.container}>
-      <img src={Logo} />
+      <img alt="logo" src={Logo} />
+      <Button
+        // is_loading={props.weather.isLoading || props.address.isLoading}
+        onClick={() => {
+          // props.addressAction(props.address.lat, props.address.lng);
+          // props.weatherAction(props.address.lat, props.address.lng);
+        }}
+      >
+        Update data
+      </Button>
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  const { address, weather } = state;
+  return {
+    address,
+    weather,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ addressAction, weatherAction }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

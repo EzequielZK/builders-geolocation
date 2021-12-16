@@ -26,3 +26,11 @@ th {
   justify-content: center;
   display: flex;
 }
+
+.title {
+  font-weight: normal;
+}
+
+.rowsContainer.rowBg {
+  background-color: aliceblue;
+}

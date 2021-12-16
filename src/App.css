@@ -1,4 +1,6 @@
 :root {
+  --header-height: 115px;
+
   /* Colors */
   --primaryColor: #ffcc00;
   --secondaryColor: #000;
@@ -15,4 +17,6 @@
   --font-md: 13px;
   --font-lg: 15px;
   --font-xl: 18px;
+
+  height: 100%;
 }

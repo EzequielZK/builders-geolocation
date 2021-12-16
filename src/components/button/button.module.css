@@ -1,0 +1,21 @@
+.button {
+  background-color: transparent;
+  min-width: 150px;
+  border: 1px solid var(--primaryColor);
+  color: var(--primaryColor);
+  cursor: pointer;
+  transition-duration: 0.2s;
+}
+
+.button:hover {
+  background-color: var(--primaryColor);
+  color: var(--secondaryColor);
+}
+
+.disabled {
+  background-color: transparent;
+  min-width: 150px;
+  border: 1px solid var(--primaryColor);
+  color: var(--primaryColor);
+  cursor: not-allowed;
+}

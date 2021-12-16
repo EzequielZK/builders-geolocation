@@ -11,6 +11,8 @@ export default function addressReducer(state = INITIAL_STATE, action) {
       city: action.payload?.name,
       state: action.payload?.state,
       isLoading: action.isLoading,
+      lat: action.payload?.lat,
+      lng: action.payload?.lon,
     },
   };
 

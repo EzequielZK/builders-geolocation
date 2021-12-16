@@ -1,11 +1,16 @@
 import React from "react";
+import { CircularProgress } from "../../../../components";
 import cssStyles from "./cards.module.css";
-export default function Cards({ title, children }) {
+export default function Cards({ is_loading, children }) {
   return (
     <div className={cssStyles.container}>
-      {title ? <h3>{title}</h3> : null}
-
-      {children}
+      {/* {is_loading ? (
+        <div className={cssStyles.progressContainer}>
+          <CircularProgress />
+        </div>
+      ) : ( */}
+        {children}
+      {/* )} */}
     </div>
   );
 }

@@ -5,8 +5,11 @@ function Table(props) {
   return (
     <div className={cssStyles.container}>
       <div className={cssStyles.headerContainer}>
-        <img alt="weather-icon" src={props.titleIcon} />
-        <h1>Florianópolis, Santa Catarina</h1>
+        {props.titleIcon ? (
+          <img alt="weather-icon" src={props.titleIcon} />
+        ) : null}
+
+        <h1 className={cssStyles.title}>{props.title}</h1>
       </div>
       <table className={cssStyles.table}>
         <thead>
@@ -19,22 +22,24 @@ function Table(props) {
           </tr>
         </thead>
         <tbody>
-          <tr className={cssStyles.rowsContainer}>
-            {props.body.map((item, index) => {
-              let key;
-              const items = [];
+          {props.body.map((item, index) => {
+            let key;
+            const items = [];
+            const rowBg = index % 2 === 0 ? cssStyles.rowBg : "";
+            for (key in item) {
+              items.push(
+                <td key={key}>
+                  <span>{item[key]}</span>
+                </td>
+              );
+            }
 
-              for (key in item) {
-                items.push(
-                  <td key={key}>
-                    <span>{item[key]}</span>
-                  </td>
-                );
-              }
-         
-              return items;
-            })}
-          </tr>
+            return (
+              <tr key={index} className={`${cssStyles.rowsContainer} ${rowBg}`}>
+                {items}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
