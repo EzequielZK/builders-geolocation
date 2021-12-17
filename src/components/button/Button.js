@@ -2,14 +2,44 @@ import React from "react";
 import { CircularProgress } from "..";
 import cssStyles from "./button.module.css";
 
-export default function Button({ children, ...props }) {
+function Button({ children, ...props }) {
   return (
     <button
       {...props}
-      className={props.is_loading ? cssStyles.disabled : cssStyles.button}
       disabled={props.is_loading}
+      className={`${cssStyles.button} ${props.className}`}
     >
-      {props.is_loading ? <CircularProgress /> : children}
+      {props.is_loading ? <CircularProgress size='small' /> : children}
     </button>
   );
 }
+
+function Contained({ children, ...props }) {
+  return (
+    <Button
+      {...props}
+      className={
+        props.is_loading
+          ? cssStyles.containedDisabled
+          : cssStyles.containedButton
+      }
+    >
+      {children}
+    </Button>
+  );
+}
+
+function Outlined({ children, ...props }) {
+  return (
+    <Button
+      {...props}
+      className={
+        props.is_loading ? cssStyles.outlinedDisabled : cssStyles.outlinedButton
+      }
+    >
+      {children}
+    </Button>
+  );
+}
+
+export default { Contained, Outlined };

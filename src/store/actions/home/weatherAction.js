@@ -4,11 +4,18 @@ export function weatherAction(lat, lng) {
   return (dispatch) => {
     dispatch({ type: "USER_WEATHER", isLoading: true });
     getWeather(lat, lng).then((response) => {
-      return dispatch({
-        type: "USER_WEATHER",
-        payload: response,
-        isLoading: false,
-      });
+      if (response.ok) {
+        return dispatch({
+          type: "USER_WEATHER",
+          payload: response.data,
+          isLoading: false,
+        });
+      } else {
+        return dispatch({
+          type: "USER_WEATHER",
+          isLoading: false,
+        });
+      }
     });
   };
 }

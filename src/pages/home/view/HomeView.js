@@ -16,7 +16,6 @@ function HomeView(props) {
     };
     navigator.geolocation.getCurrentPosition(getPosition);
   }, []);
-
   return (
     <div className={cssStyles.container}>
       <Cards is_loading={props.address.isLoading || props.weather.isLoading}>
@@ -24,7 +23,7 @@ function HomeView(props) {
           title={`${props.address.city}, ${props.address.state}`}
           titleIcon={props.weather.payload?.icon}
           headers={["DATE", "TEMP", "FEELS LIKE", "HUMIDITY", "WEATHER"]}
-          body={[{ ...props.weather.payload?.currentWeather }]}
+          body={props.weather.payload?.currentWeather ? [{ ...props.weather.payload?.currentWeather }] : null}
         />
       </Cards>
       <Cards is_loading={props.address.isLoading || props.weather.isLoading}>

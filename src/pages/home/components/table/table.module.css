@@ -34,3 +34,17 @@ th {
 .rowsContainer.rowBg {
   background-color: aliceblue;
 }
+
+.noDataIcon {
+  width: 100px !important;
+  height: 100px;
+  color: var(--disabledColor);
+  margin: var(--spacing-md) 0;
+}
+
+.noDataContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--disabledColor);
+}

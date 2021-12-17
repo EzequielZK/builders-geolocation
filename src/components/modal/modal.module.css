@@ -1,0 +1,32 @@
+.container {
+    background-color: rgba(51, 52, 56, 0.4);;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  
+  .content {
+    background-color: var(--tertiaryColor);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  .content.show {
+    min-width: 500px;
+    max-width: unset;
+  }
+  
+  .content.show.text {
+    max-width: 500px;
+  }
+  

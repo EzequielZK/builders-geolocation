@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon{
+    margin-bottom: var(--spacing-md);
+    width: 50px !important;
+    height: 50px;
+    color: red;
+}
+
+.message{
+    padding: var(--spacing-xl) 0;
+}

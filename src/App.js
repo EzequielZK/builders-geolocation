@@ -1,5 +1,5 @@
 import "./App.css";
-import { TopBar } from "./components";
+import { Modal, TopBar } from "./components";
 import { Home } from "./pages";
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
     <>
       <TopBar />
       <Home />
+      <Modal/>
     </>
   );
 }

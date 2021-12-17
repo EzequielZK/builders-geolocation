@@ -10,15 +10,20 @@ function TopBar(props) {
   return (
     <div className={cssStyles.container}>
       <img alt="logo" src={Logo} />
-      <Button
+      <Button.Outlined
         is_loading={props.weather.isLoading || props.address.isLoading}
         onClick={() => {
-          props.addressAction(props.address.lat, props.address.lng);
-          props.weatherAction(props.address.lat, props.address.lng);
+          navigator.geolocation.getCurrentPosition((position) =>{
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            props.addressAction(lat, lng);
+            props.weatherAction(lat, lng);
+          })
+
         }}
       >
         Update data
-      </Button>
+      </Button.Outlined>
     </div>
   );
 }
