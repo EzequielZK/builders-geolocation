@@ -20,8 +20,7 @@ function HomeView(props) {
     <div className={cssStyles.container}>
       <Cards is_loading={props.address.isLoading || props.weather.isLoading}>
         <Table
-          title={`${props.address.city}, ${props.address.state}`}
-          titleIcon={props.weather.payload?.icon}
+          title={`You are in ${props.address.city}, ${props.address.state}`}
           headers={["DATE", "TEMP", "FEELS LIKE", "HUMIDITY", "WEATHER"]}
           body={props.weather.payload?.currentWeather ? [{ ...props.weather.payload?.currentWeather }] : null}
         />

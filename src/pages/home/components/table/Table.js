@@ -7,13 +7,11 @@ function Table(props) {
   return (
     <div className={cssStyles.container}>
       <div className={cssStyles.headerContainer}>
-        {props.titleIcon ? (
-          <img alt="weather-icon" src={props.titleIcon} />
-        ) : null}
 
         <h1 className={cssStyles.title}>{props.title}</h1>
       </div>
-      <table className={cssStyles.table}>
+      <div className={cssStyles.tableContainer}>
+      <table className={cssStyles.table} >
         <thead>
           <tr className={cssStyles.rowsContainer}>
             {props.headers.map((item, index) => (
@@ -54,6 +52,7 @@ function Table(props) {
           )}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

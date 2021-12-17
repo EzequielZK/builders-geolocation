@@ -2,6 +2,7 @@
   padding: var(--spacing-md);
   overflow-y: auto;
   height: calc(100% - var(--header-height));
+  overflow-x: hidden;
 }
 
 

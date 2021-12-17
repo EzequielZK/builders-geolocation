@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.label{
+    color: var(--primaryColor);
+    margin-right: var(--spacing-sm);
+}
+
+.fields {
+    margin-right: var(--spacing-sm);
+}
+
+.buttonsContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .buttonsContainer:nth-child(1) {
+    margin-right: var(--spacing-sm);
+  }

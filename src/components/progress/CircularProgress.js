@@ -3,9 +3,7 @@ import cssStyle from "./circularProgress.module.css";
 
 function CircularProgress({ color, size }) {
   const colors = {
-    green: cssStyle.green,
-    white: cssStyle.white,
-    dark: cssStyle.dark,
+    secondary: cssStyle.secondaryColor,
   };
 
   const sizes = {

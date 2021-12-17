@@ -2,4 +2,7 @@
   background-color: var(--secondaryColor);
   padding: var(--spacing-md);
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }

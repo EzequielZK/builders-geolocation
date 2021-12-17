@@ -22,6 +22,8 @@ export function closeModal() {
   modalRef.closeModal();
 }
 
-export default {
-  serverErrorModal,
-};
+const modals = {
+  serverErrorModal
+}
+
+export default modals;

@@ -6,6 +6,7 @@
   --secondaryColor: #000;
   --tertiaryColor: #fff;
   --disabledColor: #c9c9c9;
+  --inputBg: #2c2c2c;
 
   /* Spacings */
   --spacing-sm: 8px;
@@ -19,5 +20,12 @@
   --font-lg: 15px;
   --font-xl: 18px;
 
+  height: 100%;
+  overflow: hidden;
+}
+
+#globalContainer{
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }

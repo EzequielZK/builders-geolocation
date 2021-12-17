@@ -4,11 +4,11 @@ import { Home } from "./pages";
 
 function App() {
   return (
-    <>
+    <div id="globalContainer">
       <TopBar />
       <Home />
-      <Modal/>
-    </>
+      <Modal />
+    </div>
   );
 }
 

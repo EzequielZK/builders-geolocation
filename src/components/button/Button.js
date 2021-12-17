@@ -9,7 +9,11 @@ function Button({ children, ...props }) {
       disabled={props.is_loading}
       className={`${cssStyles.button} ${props.className}`}
     >
-      {props.is_loading ? <CircularProgress size='small' /> : children}
+      {props.is_loading ? (
+        <CircularProgress size="small" color={props.loading_color} />
+      ) : (
+        children
+      )}
     </button>
   );
 }
@@ -23,6 +27,7 @@ function Contained({ children, ...props }) {
           ? cssStyles.containedDisabled
           : cssStyles.containedButton
       }
+      loading_color="secondary"
     >
       {children}
     </Button>
@@ -42,4 +47,9 @@ function Outlined({ children, ...props }) {
   );
 }
 
-export default { Contained, Outlined };
+const buttons = {
+  Contained,
+  Outlined,
+};
+
+export default buttons;

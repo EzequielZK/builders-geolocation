@@ -3,15 +3,24 @@
   flex-direction: column;
 }
 
-.table {
-  text-align: center;
+.tableContainer {
   flex: 1;
+  overflow-x: auto;
+}
+
+.table{
+  width: 100%;
+}
+
+.table > th, td{
+  min-width: 200px;
 }
 
 .headerContainer {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .rowsContainer {
@@ -27,12 +36,12 @@ th {
   display: flex;
 }
 
-.title {
-  font-weight: normal;
+tr:nth-child(even) {
+  background-color: aliceblue;
 }
 
-.rowsContainer.rowBg {
-  background-color: aliceblue;
+.title {
+  font-weight: normal;
 }
 
 .noDataIcon {

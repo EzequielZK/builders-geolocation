@@ -1,0 +1,12 @@
+.input {
+  background-color: var(--inputBg);
+  border-radius: 10px;
+  border: none;
+  padding: var(--spacing-sm);
+  color: var(--primaryColor);
+  margin: 0 var(--spacing-sm);
+}
+
+.input:focus {
+  outline: none;
+}

@@ -7,9 +7,10 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { reducers } from "./store/storeConfig";
 import thunk from "redux-thunk";
+import multi from "redux-multi";
 import { applyMiddleware, createStore } from "redux";
 
-const store = applyMiddleware(thunk)(createStore)(reducers);
+const store = applyMiddleware(thunk, multi)(createStore)(reducers);
 
 ReactDOM.render(
   <Provider store={store}>
