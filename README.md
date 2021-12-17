@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -14,57 +14,217 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+## Documentation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The system has three main components: TopBar, Home and a Modal that is always ready to show up when it needs.
 
-### `npm run build`
+```sh
+import "./App.css";
+import { Modal, TopBar } from "./components";
+import { Home } from "./pages";
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+function App() {
+  return (
+    <>
+      <TopBar />
+      <Home />
+      <Modal/>
+    </>
+  );
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+export default App;
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The TopBar component is responsible for showing the company banner and the 'Update data' button, that updates screen's data.
 
-### `npm run eject`
+```sh
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Logo } from "../images/Images";
+import { addressAction, weatherAction } from "../../store/actions";
+import cssStyles from "./topBar.module.css";
+import { Button } from "..";
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+function TopBar(props) {
+  return (
+    <div className={cssStyles.container}>
+      <img alt="logo" src={Logo} />
+      <Button.Outlined
+        is_loading={props.weather.isLoading || props.address.isLoading}
+        onClick={() => {
+          navigator.geolocation.getCurrentPosition((position) =>{
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            props.addressAction(lat, lng);
+            props.weatherAction(lat, lng);
+          })
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+        }}
+      >
+        Update data
+      </Button.Outlined>
+    </div>
+  );
+}
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+function mapStateToProps(state) {
+  const { address, weather } = state;
+  return {
+    address,
+    weather,
+  };
+}
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ addressAction, weatherAction }, dispatch);
+}
 
-## Learn More
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The Home component is responsible for showing the main content of the system, the current and daily weather. First of all, it takes the geolocation data from the user through the browser, using React's 'useEffect' hook. Then it calls the reverse geolocation and the weather API from OpenWeather, which returns the city and state, current weather and daily weather based on latitude and longitude passed. The DOM shows two tables with all the rescued data. One for the current weather, and another for the daily weather.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { addressAction, weatherAction } from "../../../store/actions";
+import { Cards, Table } from "../components";
+import cssStyles from "./homeView.module.css";
 
-### Code Splitting
+function HomeView(props) {
+  React.useEffect(() => {
+    const getPosition = (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+      props.addressAction(lat, lng);
+      props.weatherAction(lat, lng);
+    };
+    navigator.geolocation.getCurrentPosition(getPosition);
+  }, []);
+  return (
+    <div className={cssStyles.container}>
+      <Cards is_loading={props.address.isLoading || props.weather.isLoading}>
+        <Table
+          title={`${props.address.city}, ${props.address.state}`}
+          titleIcon={props.weather.payload?.icon}
+          headers={["DATE", "TEMP", "FEELS LIKE", "HUMIDITY", "WEATHER"]}
+          body={props.weather.payload?.currentWeather ? [{ ...props.weather.payload?.currentWeather }] : null}
+        />
+      </Cards>
+      <Cards is_loading={props.address.isLoading || props.weather.isLoading}>
+        <Table
+          title="Next few days"
+          headers={[
+            "DATE",
+            "DAY TEMP",
+            "NIGHT TEMP",
+            "MIN TEMP",
+            "MAX TEMP",
+            "DAY FEELING",
+            "NIGHT FEELING",
+            "HUMIDITY",
+            "WEATHER",
+          ]}
+          body={props.weather.payload?.dailyWeather}
+        />
+      </Cards>
+    </div>
+  );
+}
+function mapStateToProps(state) {
+  const { address, weather } = state;
+  return {
+    address,
+    weather,
+  };
+}
 
-### Analyzing the Bundle Size
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ addressAction, weatherAction }, dispatch);
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeView);
 
-### Making a Progressive Web App
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The Modal component is responsible for showing feedback of the system. Whenever an error occurs, the Modal component is triggered by try/catch code that goes around each request and shows the error messages.
 
-### Advanced Configuration
+```sh
+import React, { Component } from "react";
+import { getModalRef } from "./openModal";
+import modalStyles from "./modal.module.css";
+import ServerErrorModal from "./serverErrorModal/ServerErrorModal";
+import { OutsideClick } from "..";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+class Modal extends Component {
+  state = {
+    configs: {},
+    open: false,
+    type: null,
+  };
 
-### Deployment
+  componentDidMount() {
+    getModalRef(this);
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+  setModalConfigs = (configs, type, open) => {
+    if (open) {
+      setTimeout(() => {
+        this.setState({ open, configs, type });
+      }, 50);
+    }
+  };
 
-### `npm run build` fails to minify
+  modalTypes = () => {
+    const { type } = this.state;
+    const types = {
+      serverError: ServerErrorModal,
+    };
+    return types[type];
+  };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  closeModal = () => {
+    this.setState({ open: false });
+  };
+
+  render() {
+    const Component = this.modalTypes();
+    if (this.state.open) {
+      return (
+        <div className={modalStyles.container}>
+          <OutsideClick onOutsideClick={() => this.closeModal()}>
+            <div
+              className={`${modalStyles.content} ${
+                modalStyles[this.state.type]
+              } ${modalStyles[this.state.configs?.type]}`}
+            >
+              <Component
+                configs={this.state.configs}
+                closeModal={this.closeModal}
+              />
+            </div>
+          </OutsideClick>
+        </div>
+      );
+    }
+    return <></>;
+  }
+}
+
+export default Modal;
+
+
+```
+
+## Libraries
+
+| Library | Link | Description | 
+| ------ | ------ | ------ |
+| ReactJS | https://pt-br.reactjs.org/ | The JS framework used | 
+| Redux | https://redux.js.org/ | Storage used to save the data from OpenWeather API's
+| apisauce | https://www.npmjs.com/package/apisauce | Used to call the API's
+| FontAwesome | https://fontawesome.com/ | Used for system icons
