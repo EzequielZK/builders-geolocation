@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Welcome to BuildersWeather App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![image](https://user-images.githubusercontent.com/22550517/146614106-ba8367f5-424b-4c29-a571-40f484540b37.png)
 
 ## Available Scripts
 
@@ -25,66 +25,104 @@ import { Home } from "./pages";
 
 function App() {
   return (
-    <>
+    <div id="globalContainer">
       <TopBar />
       <Home />
-      <Modal/>
-    </>
+      <Modal />
+    </div>
   );
 }
 
 export default App;
 ```
 
-The TopBar component is responsible for showing the company banner and the 'Update data' button, that updates screen's data.
+The TopBar component is responsible for showing the company banner, the 'Update data' and 'Current location' buttons and inputs for geolocation searches.
 
 ```sh
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Logo } from "../images/Images";
-import { addressAction, weatherAction } from "../../store/actions";
+import {
+  addressAction,
+  weatherAction,
+  resetFormAction,
+} from "../../store/actions";
 import cssStyles from "./topBar.module.css";
-import { Button } from "..";
+import { Button, Form } from "..";
 
 function TopBar(props) {
   return (
     <div className={cssStyles.container}>
       <img alt="logo" src={Logo} />
-      <Button.Outlined
-        is_loading={props.weather.isLoading || props.address.isLoading}
-        onClick={() => {
-          navigator.geolocation.getCurrentPosition((position) =>{
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            props.addressAction(lat, lng);
-            props.weatherAction(lat, lng);
-          })
 
+      <Form
+        onSubmit={({ latitude, longitude }) => {
+          props.addressAction(latitude, longitude);
+          props.weatherAction(latitude, longitude);
         }}
-      >
-        Update data
-      </Button.Outlined>
+        is_loading={props.weather.isLoading || props.address.isLoading}
+      />
+      <div className={cssStyles.buttonsContainer}>
+        <Button.Outlined
+          is_loading={props.weather.isLoading || props.address.isLoading}
+          onClick={() => {
+            if (props.form.placeSearch.values) {
+              const { latitude, longitude } = props.form.placeSearch.values;
+              props.addressAction(latitude, longitude);
+              props.weatherAction(latitude, longitude);
+            } else {
+              navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                props.addressAction(lat, lng);
+                props.weatherAction(lat, lng);
+              });
+            }
+          }}
+        >
+          Update data
+        </Button.Outlined>
+
+        <Button.Outlined
+          is_loading={props.weather.isLoading || props.address.isLoading}
+          onClick={() => {
+            navigator.geolocation.getCurrentPosition((position) => {
+              const lat = position.coords.latitude;
+              const lng = position.coords.longitude;
+
+              props.resetFormAction(lat, lng);
+            });
+          }}
+        >
+          Current location
+        </Button.Outlined>
+      </div>
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  const { address, weather } = state;
+  const { address, weather, form } = state;
   return {
     address,
     weather,
+    form,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addressAction, weatherAction }, dispatch);
+  return bindActionCreators(
+    { addressAction, weatherAction, resetFormAction },
+    dispatch
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopBar);
+
 ```
 
-The Home component is responsible for showing the main content of the system, the current and daily weather. First of all, it takes the geolocation data from the user through the browser, using React's 'useEffect' hook. Then it calls the reverse geolocation and the weather API from OpenWeather, which returns the city and state, current weather and daily weather based on latitude and longitude passed. The DOM shows two tables with all the rescued data. One for the current weather, and another for the daily weather.
+The Home component is responsible for showing the main content of the system, the current and daily weather. First of all, it gets the geolocation data from the user through the browser, using React's 'useEffect' hook. Then it calls the reverse geolocation and the weather API from OpenWeather, which returns the city and state, current weather and daily weather based on latitude and longitude passed. The DOM shows two tables with all the rescued data. One for the current weather, and another for the daily weather.
 
 ```sh
 import React from "react";
@@ -109,8 +147,7 @@ function HomeView(props) {
     <div className={cssStyles.container}>
       <Cards is_loading={props.address.isLoading || props.weather.isLoading}>
         <Table
-          title={`${props.address.city}, ${props.address.state}`}
-          titleIcon={props.weather.payload?.icon}
+          title={`You are in ${props.address.city}, ${props.address.state}`}
           headers={["DATE", "TEMP", "FEELS LIKE", "HUMIDITY", "WEATHER"]}
           body={props.weather.payload?.currentWeather ? [{ ...props.weather.payload?.currentWeather }] : null}
         />
