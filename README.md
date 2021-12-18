@@ -263,5 +263,6 @@ export default Modal;
 | ------ | ------ | ------ |
 | ReactJS | https://pt-br.reactjs.org/ | The JS framework used | 
 | Redux | https://redux.js.org/ | Storage used to save the data from OpenWeather API's
+| Redux Form | https://redux-form.com/8.3.0/ | Form used to search for coordinates
 | apisauce | https://www.npmjs.com/package/apisauce | Used to call the API's
 | FontAwesome | https://fontawesome.com/ | Used for system icons
